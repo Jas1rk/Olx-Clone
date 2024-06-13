@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../../../public/Images/olx-logo.png";
+import Logo from "/Images/olx-logo.png";
 import "./Login.css";
 
 const Login = () => {
@@ -9,23 +9,11 @@ const Login = () => {
       <form>
         <label htmlFor="fname">Username</label>
         <br />
-        <input
-          className="input"
-          type="text"
-          id="fname"
-          name="name"
-        
-        />
+        <input className="input" type="text" id="fname" name="name" />
         <br />
         <label htmlFor="fname">Email</label>
         <br />
-        <input
-          className="input"
-          type="email"
-          id="fname"
-          name="email"
-         
-        />
+        <input className="input" type="email" id="fname" name="email" />
 
         <br />
         <br />

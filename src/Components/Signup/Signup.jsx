@@ -1,19 +1,43 @@
-import React from "react";
-import Logo from "../../../public/Images/olx-logo.png";
+import React, { useContext, useState } from "react";
+import Logo from "/Images/olx-logo.png";
 import "./Signup.css";
+import UseForm from "../../UseForm";
+import fireBaseContext from "../../Storage/FirebaseContext";
+import { getAuth,createUserWithEmailAndPassword} from 'firebase/auth'
 
 const Signup = () => {
+  const { firebaseapp } = useContext(fireBaseContext);
+  const [value, handleInput] = UseForm({
+    username: "",
+    email: "",
+    mobile: "",
+    password: "",
+  });
+  const { username, email, mobile, password } = value;
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const auth = getAuth(firebaseapp)
+    createUserWithEmailAndPassword(auth,email, password)
+    .then((result) => {
+      result.user.updateProfile({ displayName: username });
+    })
+    .catch(error => console.log('error in ',error))
+  };
+
   return (
     <div className="signupParentDiv">
       <img width="200px" height="200px" src={Logo}></img>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="fname">Username</label>
         <br />
         <input
           className="input"
           type="text"
+          value={username}
+          onChange={handleInput}
           id="fname"
-          name="name"
+          name="username"
           defaultValue="John"
         />
         <br />
@@ -24,6 +48,8 @@ const Signup = () => {
           type="email"
           id="fname"
           name="email"
+          value={email}
+          onChange={handleInput}
           defaultValue="John"
         />
         <br />
@@ -33,8 +59,9 @@ const Signup = () => {
           className="input"
           type="number"
           id="lname"
-          name="phone"
-          defaultValue="Doe"
+          name="mobile"
+          value={mobile}
+          onChange={handleInput}
         />
         <br />
         <label htmlFor="lname">Password</label>
@@ -44,6 +71,8 @@ const Signup = () => {
           type="password"
           id="lname"
           name="password"
+          value={password}
+          onChange={handleInput}
           defaultValue="Doe"
         />
         <br />
