@@ -3,10 +3,16 @@ import Logo from "/Images/olx-logo.png";
 import "./Signup.css";
 import UseForm from "../../UseForm";
 import fireBaseContext from "../../Storage/FirebaseContext";
-import { getAuth,createUserWithEmailAndPassword} from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { useNavigate, Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Audio } from "react-loader-spinner";
 
 const Signup = () => {
   const { firebaseapp } = useContext(fireBaseContext);
+  const [loding, setLoding] = useState(false);
   const [value, handleInput] = UseForm({
     username: "",
     email: "",
@@ -14,74 +20,129 @@ const Signup = () => {
     password: "",
   });
   const { username, email, mobile, password } = value;
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const auth = getAuth(firebaseapp)
-    createUserWithEmailAndPassword(auth,email, password)
-    .then((result) => {
-      result.user.updateProfile({ displayName: username });
-    })
-    .catch(error => console.log('error in ',error))
+    const auth = getAuth(firebaseapp);
+    const dataBase = getFirestore(firebaseapp);
+    try {
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = result.user;
+      const useRef = collection(dataBase, "users");
+
+      const userData = {
+        uid: user.uid,
+        username: username,
+        email: email,
+        mobile: mobile,
+        password: password,
+      };
+      addDoc(useRef, userData);
+      console.log("userCreated ", useRef, userData);
+      toast.success("Signed successfully");
+      setLoding(true);
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
+    } catch (error) {
+      if (error.code === "auth/weak-password") {
+        toast.error("Password should be at least 6 characters", {
+          closeButton: true,
+          autoClose: false,
+          progressBar: false,
+        });
+      } else if (error.code === "auth/email-already-in-use") {
+        toast.error("Email already exists", {
+          closeButton: true,
+          autoClose: false,
+          progressBar: false,
+        });
+      } else {
+        toast.error("Something went wrong, Please try again later", {
+          closeButton: true,
+          autoClose: false,
+          progressBar: false,
+        });
+      }
+    }
   };
 
   return (
-    <div className="signupParentDiv">
-      <img width="200px" height="200px" src={Logo}></img>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="fname">Username</label>
-        <br />
-        <input
-          className="input"
-          type="text"
-          value={username}
-          onChange={handleInput}
-          id="fname"
-          name="username"
-          defaultValue="John"
-        />
-        <br />
-        <label htmlFor="fname">Email</label>
-        <br />
-        <input
-          className="input"
-          type="email"
-          id="fname"
-          name="email"
-          value={email}
-          onChange={handleInput}
-          defaultValue="John"
-        />
-        <br />
-        <label htmlFor="lname">Phone</label>
-        <br />
-        <input
-          className="input"
-          type="number"
-          id="lname"
-          name="mobile"
-          value={mobile}
-          onChange={handleInput}
-        />
-        <br />
-        <label htmlFor="lname">Password</label>
-        <br />
-        <input
-          className="input"
-          type="password"
-          id="lname"
-          name="password"
-          value={password}
-          onChange={handleInput}
-          defaultValue="Doe"
-        />
-        <br />
-        <br />
-        <button>Signup</button>
-      </form>
-      <p>Already have an account ?</p>
-      <a>Login</a>
-    </div>
+    <>
+      <ToastContainer />
+      <div className="signupParentDiv">
+        {loding ? (
+          <Audio
+            height="80"
+            width="80"
+            radius="9"
+            color="green"
+            ariaLabel="loading"
+            wrapperStyle
+            wrapperClass
+          />
+        ) : (
+          <>
+            <img width="200px" height="200px" src={Logo}></img>
+            <form onSubmit={handleSubmit}>
+              <label htmlFor="fname">Username</label>
+              <br />
+              <input
+                className="input"
+                type="text"
+                value={username}
+                onChange={handleInput}
+                id="fname"
+                name="username"
+              />
+              <br />
+              <label htmlFor="fname">Email</label>
+              <br />
+              <input
+                className="input"
+                type="email"
+                id="fname"
+                name="email"
+                value={email}
+                onChange={handleInput}
+              />
+              <br />
+              <label htmlFor="lname">Phone</label>
+              <br />
+              <input
+                className="input"
+                type="number"
+                id="lname"
+                name="mobile"
+                value={mobile}
+                onChange={handleInput}
+              />
+              <br />
+              <label htmlFor="lname">Password</label>
+              <br />
+              <input
+                className="input"
+                type="password"
+                id="lname"
+                name="password"
+                value={password}
+                onChange={handleInput}
+              />
+              <br />
+              <br />
+              <button>Signup</button>
+            </form>
+            <p>Already have an account ?</p>
+            <Link to={"/login"}>Login</Link>
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

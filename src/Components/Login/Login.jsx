@@ -1,6 +1,7 @@
 import React from "react";
 import Logo from "/Images/olx-logo.png";
 import "./Login.css";
+import { Link } from 'react-router-dom'
 
 const Login = () => {
   return (
@@ -20,7 +21,7 @@ const Login = () => {
         <button>Login</button>
       </form>
       <p> Don't have an account ?</p>
-      <a>Sign up</a>
+      <Link to={'/signup'}>Sign up</Link>
     </div>
   );
 };
