@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Header.css";
 import OlxLogo from "../../assets/OlxLogo";
 import Search from "../../assets/Search";
 import Arrow from "../../assets/Arrow";
 import SellButton from "../../assets/SellButton";
 import SellButtonPlus from "../../assets/SellButtonPlus";
+import { userContext } from "../../Storage/userContext";
+import { Link } from "react-router-dom";
 
 const Header = () => {
+  const { user } = useContext(userContext);
   return (
     <div className="headerParent">
       <div className="headerChildDiv">
@@ -36,7 +39,15 @@ const Header = () => {
         </div>
 
         <div className="loginPage">
-          <span>Login</span>
+          {user ? (
+            <Link to={"/profile"}>
+              <span>Profile</span>
+            </Link>
+          ) : (
+            <Link to={"/login"}>
+              <span>Login</span>
+            </Link>
+          )}
           <hr />
         </div>
 
