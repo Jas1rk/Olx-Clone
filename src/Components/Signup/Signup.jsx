@@ -90,7 +90,6 @@ const Signup = () => {
           <>
             <img width="200px" height="200px" src={Logo}></img>
             <form onSubmit={handleSubmit}>
-              <label htmlFor="fname">Username</label>
               <br />
               <input
                 className="input"
@@ -99,9 +98,10 @@ const Signup = () => {
                 onChange={handleInput}
                 id="fname"
                 name="username"
+                placeholder="Username"
               />
               <br />
-              <label htmlFor="fname">Email</label>
+
               <br />
               <input
                 className="input"
@@ -110,9 +110,10 @@ const Signup = () => {
                 name="email"
                 value={email}
                 onChange={handleInput}
+                placeholder="Email"
               />
               <br />
-              <label htmlFor="lname">Phone</label>
+
               <br />
               <input
                 className="input"
@@ -121,9 +122,10 @@ const Signup = () => {
                 name="mobile"
                 value={mobile}
                 onChange={handleInput}
+                placeholder="Mobile"
               />
               <br />
-              <label htmlFor="lname">Password</label>
+
               <br />
               <input
                 className="input"
@@ -132,6 +134,7 @@ const Signup = () => {
                 name="password"
                 value={password}
                 onChange={handleInput}
+                placeholder="Password"
               />
               <br />
               <br />
