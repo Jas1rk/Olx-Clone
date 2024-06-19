@@ -20,65 +20,67 @@ const Login = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    setLoding(true)
     const auth = getAuth(firebaseapp);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      setLoding(true);
+      setLoding(false)
       navigate("/");
     } catch (error) {
+      setLoding(false)
       toast.error("Enter valid email and password");
     }
   };
   return (
     <>
       <ToastContainer />
-    <div className="loginParentDiv">
-      {loading ? (
-        <Audio
-          height="80"
-          width="80"
-          radius="9"
-          color="green"
-          ariaLabel="loading"
-          wrapperStyle
-          wrapperClass
-        />
-      ) : (
-        <>
-          <img width="200px" height="200px" src={Logo}></img>
-          <form onSubmit={handleLogin}>
-            <br />
-            <input
-              className="input"
-              type="text"
-              id="fname"
-              name="email"
-              value={email}
-              onChange={handleInput}
-              placeholder="Email"
-            />
-            <br />
+      <div className="loginParentDiv">
+        {loading ? (
+          <Audio
+            height="80"
+            width="80"
+            radius="9"
+            color="green"
+            ariaLabel="loading"
+            wrapperStyle
+            wrapperClass
+          />
+        ) : (
+          <>
+            <img width="200px" height="200px" src={Logo}></img>
+            <form onSubmit={handleLogin}>
+              <br />
+              <input
+                className="input"
+                type="text"
+                id="fname"
+                name="email"
+                value={email}
+                onChange={handleInput}
+                placeholder="Email"
+              />
+              <br />
 
-            <br />
-            <input
-              className="input"
-              type="password"
-              id="fname"
-              name="password"
-              value={password}
-              onChange={handleInput}
-              placeholder="Password"
-            />
+              <br />
+              <input
+                className="input"
+                type="password"
+                id="fname"
+                name="password"
+                value={password}
+                onChange={handleInput}
+                placeholder="Password"
+              />
 
-            <br />
-            <br />
-            <button>Login</button>
-          </form>
-          <p> Don't have an account ?</p>
-          <Link to={"/signup"}>Sign up</Link>
-        </>
-      )}
-    </div>
+              <br />
+              <br />
+              <button>Login</button>
+            </form>
+            <p> Don't have an account ?</p>
+            <Link to={"/signup"}>Sign up</Link>
+          </>
+        )}
+      </div>
     </>
   );
 };
