@@ -8,6 +8,7 @@ import { userContext } from "./Storage/userContext";
 import fireBaseContext from "./Storage/FirebaseContext";
 import { getAuth } from "firebase/auth";
 import Profile from "./Components/Profile/Profile";
+import CreatePage from "./Pages/Create";
 
 function App() {
   const { setUser } = useContext(userContext);
@@ -26,6 +27,7 @@ function App() {
           <Route exact path="/signup" element={<SignupPage />} />
           <Route exact path="/login" element={<LoginPage />} />
           <Route exact path="/profile" element={ <Profile/>} />
+          <Route exact path="/create" element={ <CreatePage/>} />
         </Routes>
       </Router>
     </>
