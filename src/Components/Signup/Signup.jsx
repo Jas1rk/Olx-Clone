@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Logo from "/Images/olx-logo.png";
 import "./Signup.css";
-import UseForm from "../../UseForm";
+import UseForm from "../../Hooks/UseForm";
 import fireBaseContext from "../../Storage/FirebaseContext";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, collection, addDoc } from "firebase/firestore";

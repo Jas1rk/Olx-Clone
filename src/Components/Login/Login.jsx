@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import Logo from "/Images/olx-logo.png";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
-import UseForm from "../../UseForm";
+import UseForm from "../../Hooks/UseForm";
 import fireBaseContext from "../../Storage/FirebaseContext";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
@@ -20,14 +20,14 @@ const Login = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    setLoding(true)
+    setLoding(true);
     const auth = getAuth(firebaseapp);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      setLoding(false)
+      setLoding(false);
       navigate("/");
     } catch (error) {
-      setLoding(false)
+      setLoding(false);
       toast.error("Enter valid email and password");
     }
   };

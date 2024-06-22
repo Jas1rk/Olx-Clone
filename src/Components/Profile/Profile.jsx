@@ -15,12 +15,12 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if ( user) {
-        console.log(user)
+      if (user) {
+        console.log(user);
         const db = getFirestore(firebaseapp);
         const userRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userRef);
-        console.log("got the userRef",userRef);
+        console.log("got the userRef", userRef);
         if (userDoc.exists) {
           console.log("UserData", userDoc.data());
           setUserData(userDoc.data());
