@@ -5,11 +5,10 @@ import Header from '../Components/Header/Header'
 const CreatePage = () => {
   return (
     <div>
-        <Header/>
+       
       <Create/>
     </div>
   )
 }
 
 export default CreatePage
-a
