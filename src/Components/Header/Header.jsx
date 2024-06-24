@@ -6,10 +6,15 @@ import Arrow from "../../assets/Arrow";
 import SellButton from "../../assets/SellButton";
 import SellButtonPlus from "../../assets/SellButtonPlus";
 import { userContext } from "../../Storage/userContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const { user } = useContext(userContext);
+  const navigate = useNavigate()
+
+  const handleSell = () => {
+    user ? navigate('/create') : navigate('/login')
+  }
   return (
     <div className="headerParent">
       <div className="headerChildDiv">
@@ -51,7 +56,7 @@ const Header = () => {
           <hr />
         </div>
 
-        <div className="sellMenu">
+        <div className="sellMenu" onClick={handleSell}>
           <SellButton />
           <div className="sellMenuCotent">
             <SellButtonPlus />
